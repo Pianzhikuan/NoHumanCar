@@ -1,0 +1,44 @@
+#include "bsp_robot_gripper.h"
+
+static uint8_t test_init[14] = {0xFF, 0xFE, 0xFD, 0xFC, 0x01, 0x08, 0x02, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFB};//初始化
+static uint8_t test0[14] = {0xFF, 0xFE, 0xFD, 0xFC, 0x01, 0x10, 0x09, 0x01, 0x00, 0x01, 0x00, 0x00, 0x00, 0xFB};//打开I/O 模式：（写操作）
+static uint8_t test1[14] = {0xFF, 0xFE, 0xFD, 0xFC, 0x01, 0x10, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFB};//(设置第一个行程 闭合位置 0)
+static uint8_t test2[14] = {0xFF, 0xFE, 0xFD, 0xFC, 0x01, 0x10, 0x02, 0x01, 0x00, 0x5A, 0x00, 0x00, 0x00, 0xFB};//(设置第一个行程 张开位置 90)
+static uint8_t test3[14] = {0xFF, 0xFE, 0xFD, 0xFC, 0x01, 0x10, 0x03, 0x01, 0x00, 80, 0x00, 0x00, 0x00, 0xFB};//(设置第一个行程 夹持力 60)
+static uint8_t test4[14] = {0xFF, 0xFE, 0xFD, 0xFC, 0x01, 0x10, 0x0A, 0x01, 0x00, 60, 0x00, 0x00, 0x00, 0xFB};//(设置第一个行程 外撑力 60)
+/*****************************************************************
+	* @brief  初始化机械爪
+  * @param  
+  * @retval 无返回值
+  ****************************************************************/
+void init_Robot_Gripper(void)
+{
+	LED3_ON;
+	  //发送代码
+	Usart_SendStr_length( Gripper_UART ,test_init , 14 );
+	delay_ms(30);//缓冲
+	Usart_SendStr_length( Gripper_UART ,test0 , 14 );
+	delay_ms(30);//缓冲
+	Usart_SendStr_length( Gripper_UART ,test1 , 14 );
+	delay_ms(30);//缓冲
+	Usart_SendStr_length( Gripper_UART ,test2 , 14 );
+	delay_ms(30);//缓冲
+	Usart_SendStr_length( Gripper_UART ,test3 , 14 );
+	delay_ms(30);//缓冲
+	Usart_SendStr_length( Gripper_UART ,test4 , 14 );
+	LED3_OFF;
+	delay_ms(0x0FF);//缓冲
+	delay_ms(0x0FF);//缓冲
+	delay_ms(0x0FF);//缓冲
+	delay_ms(30);//缓冲
+	LED2_ON;//初始化完毕
+	delay_ms(0x0FF);//缓冲
+	delay_ms(0x0FF);//缓冲
+	delay_ms(0x0FF);//缓冲
+	LED2_OFF;
+}
+
+////抓住
+//void gripperCatch(void);
+////松开
+//void gripperPut(void);
